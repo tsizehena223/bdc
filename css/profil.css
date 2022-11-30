@@ -1,0 +1,13 @@
+.profile {position: fixed; 
+    top: 50%; 
+    left: -48%; 
+    width: 100%;
+    -moz-transform:rotate(-90deg);
+    -ms-transform:rotate(-90deg);
+    -o-transform:rotate(-90deg);
+    -webkit-transform:rotate(-90deg);
+}
+
+.nom {
+    position: relative;
+}

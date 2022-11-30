@@ -1,0 +1,11 @@
+#accueil, #deconnex, #profil, #connect, #inscri {
+    display: none;
+}
+
+.accueil:hover #accueil, 
+.deconnex:hover #deconnex, 
+.profil:hover #profil,
+.connect:hover #connect,
+.inscri:hover #inscri {
+    display: block;
+}
