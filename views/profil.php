@@ -13,7 +13,12 @@ if ($res != null) {
     $git = $res['git'];
 }
 
-//RECUPERATION PHOTO DE PROFIL
+//TEST SI L'USER A UN PDP
+
+$test = $bdd->prepare('SELECT * FROM photo_user WHERE id_user = ?');
+$test->execute([$_SESSION['id']]);
+$test->setFetchMode(PDO::FETCH_ASSOC);
+$is_exist = $test->fetchAll();
 
 ?>
 
@@ -53,7 +58,7 @@ if ($res != null) {
                 <div class="row align-items-center">
 
                     <?php if (isset($_SESSION['flash'])) { ?>
-                        <div class="alert alert-warning"><?= $_SESSION['flash'] ?></div>
+                        <div class="alert alert-info"><?= $_SESSION['flash'] ?></div>
                     <?php unset($_SESSION['flash']);
                     } ?>
 
@@ -66,9 +71,13 @@ if ($res != null) {
                                     <div class="card mb-3" style="border-radius: 20px;">
                                         <div class="row g-0">
                                             <div class="col-md-4 gradient-custom text-center profil1 text-white" style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                                                <!-- <img src="../images/user.jpg" alt="Avatar" class="img-fluid my-5" style="width: 80px; border-radius: 50%" /> -->
-                                                <img src="../controllers/affichage_pdp.php?id=<?= $_SESSION['id'] ?>" class="img-fluid my-5" style="width: 80px; border-radius: 50%" />
+                                                <?php if ($is_exist != null) : ?>
+                                                    <img src="../controllers/affichage_pdp.php?id=<?= $_SESSION['id'] ?>" class="img-fluid my-5" style="width: 80px; border-radius: 50%" />
+                                                <?php else : ?>
+                                                    <img src="../images/user.jpg" class="img-fluid my-5" style="width: 80px; border-radius: 50%" />
+                                                <?php endif ?>
                                                 <a href="../controllers/add_pdp.php"><i class="fa fa-camera" style="color: yellow; position: absolute; top: 7em; left: 7.5em;"></i></a>
+                                                <a href="../controllers/suppr_pdp.php"><i class="fa fa-close" style="color: red; position: absolute; top: 7em; left: 3em;"></i></a>
                                                 <h5 class="text-white"><?= $name ?></h5>
                                                 <code>
                                                     <?php if (isset($fonction)) echo $fonction;

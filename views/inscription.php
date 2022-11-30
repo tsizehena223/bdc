@@ -37,8 +37,8 @@ if (isset($_POST['inscription'])) {
 
             $token = token_random_string(7);
 
-            $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-            // $password = $_POST['password'];
+            // $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+            $password = $_POST['password'];
             $requete = $bdd->prepare('INSERT INTO bdc.users (pseudo, email, psw, token) VALUES (?, ?, ?, ?)');
             $requete->execute([$_POST['username'], $_POST['email'], $password, $token]);
 
