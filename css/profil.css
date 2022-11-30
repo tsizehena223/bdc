@@ -1,13 +1,18 @@
-.profile {position: fixed; 
-    top: 50%; 
-    left: -48%; 
-    width: 100%;
-    -moz-transform:rotate(-90deg);
-    -ms-transform:rotate(-90deg);
-    -o-transform:rotate(-90deg);
-    -webkit-transform:rotate(-90deg);
+.gradient-custom {
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
 }
 
-.nom {
-    position: relative;
+.profil2 {
+    background-color: rgb(14, 05, 22);
+    color: aliceblue;
+}
+
+.profil1 {
+    background-color: black;
+    color: aliceblue;
+}
+
+.mail {
+    font-size: 0.8em !important;
 }

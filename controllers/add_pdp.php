@@ -1,57 +1,42 @@
 <?php
 include('../includes/head.php');
 if (isset($_POST['modification']) && isset($_SESSION['id'])) {
-    if (empty($_POST['username']) || !preg_match('/[a-zA-Z0-9]+/', $_POST['username'])) {
-        $message = "Username invalid";
-    } elseif (empty($_POST['fonction'])) {
-        $message = "Fonction invalid";
-    } elseif (empty($_POST['numero'])) {
-        $message = "Numéro invalid";
-    } elseif (empty($_POST['git'])) {
-        $message = "Github invalid";
+    if (!empty($_POST['image'])) {
+        $message = "File invalid";
     } else {
         require_once 'start_bdd.php';
 
-        //TESTER SI LE NOM EST DEJA PRIS
-        $req = $bdd->prepare('SELECT * FROM users WHERE pseudo = ?');
-        $req->execute([$_POST['username']]);
-        $result = $req->fetch();
+        //TESTER SI Y A DEJA DE PHOTOS
+        $requ = $bdd->prepare('SELECT * FROM photo_user WHERE id_user = ? LIMIT 1');
+        $requ->execute([$_SESSION['id']]);
+        $requ->setFetchMode(PDO::FETCH_ASSOC);
+        $test = $requ->fetch();
 
-        if ($result) {
-            $message = "Name already token";
-        } else {
-            //INSERTION AUTRES INFOS
+        if ($test != null) {
+            $del = $bdd->prepare('DELETE FROM photo_user WHERE id_user = ?');
+            $del->execute([$_SESSION['id']]);
+        }
+        //FIN DE TEST
 
-            //TESTER SI Y A DEJA DES INFOS
-            $requ = $bdd->prepare('SELECT * FROM user_info WHERE id_user = ? LIMIT 1');
-            $requ->execute([$_SESSION['id']]);
-            $requ->setFetchMode(PDO::FETCH_ASSOC);
-            $test = $requ->fetch();
+        $req = $bdd->prepare('INSERT INTO photo_user (nom, taille, types, bin, id_user)
+            VALUES (?, ?, ?, ?, ?) ');
+        $req->execute([
+            $_FILES["image"]["name"],
+            $_FILES["image"]["size"],
+            $_FILES["image"]["type"],
+            file_get_contents($_FILES["image"]["tmp_name"]),
+            $_SESSION['id']
+        ]);
 
-            if ($test != null) {
-                $del = $bdd->prepare('DELETE FROM user_info WHERE id_user = ?');
-                $del->execute([$_SESSION['id']]);
-            }
-            //FIN DE TEST
-
-            $req = $bdd->prepare('INSERT INTO user_info (fonction, phone_number, git, id_user)
-            VALUES (?, ?, ?, ?) ');
-            $req->execute([$_POST['fonction'], $_POST['numero'], $_POST['git'], $_SESSION['id']]);
-
-            $requete = $bdd->prepare('UPDATE users SET pseudo = ? WHERE id = ?');
-            $requete->execute([$_POST['username'], $_SESSION['id']]);
-
-            $_SESSION['flash'] = "Profil modified successfully"; ?>
-            <!-- header('location: ../views/profil.php'); -->
-            <script>
-                location.replace('../views/profil.php')
-            </script>
+        $_SESSION['flash'] = "Profil modified successfully"; ?>
+        <script>
+            location.replace('../views/profil.php')
+        </script>
 <?php }
-    }
 }
 ?>
 
-<title>BDC | Modification du profil</title>
+<title>BDC | Ajout de photo de profil</title>
 
 <body>
     <section class="section gradient-banner">
@@ -82,23 +67,16 @@ if (isset($_POST['modification']) && isset($_SESSION['id'])) {
 
                 <div class="col-md-6 order-2 order-md-1 text-center text-md-left">
                     <center>
-                        <h2 style="color: white; ">Modification du Profil</h2> <br>
+                        <h2 style="color: white; ">Ajout de photo de Profil</h2> <br>
                     </center>
-                    <form method="post">
+                    <form enctype="multipart/form-data" method="POST">
                         <div class="form-group">
-                            <input type="text" name="username" class="form-control" placeholder="New name" value="" />
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2500000" />
+                            <label for="pdp">Inserer une image : </label>
+                            <input type="file" name="image" id="pdp" class="form-controll" size="50" placeholder="Your pic *" required>
                         </div> <br>
                         <div class="form-group">
-                            <input type="number" name="numero" class="form-control" placeholder="Phone number" value="" />
-                        </div> <br>
-                        <div class="form-group">
-                            <input type="text" name="fonction" class="form-control" placeholder="Your function (eg: dev web)" value="" />
-                        </div> <br>
-                        <div class="form-group">
-                            <input type="text" name="git" class="form-control" placeholder="Github account" value="" />
-                        </div> <br>
-                        <div class="form-group">
-                            <input type="submit" name="modification" class="btn btn-info btn-md" value="Modifier" />
+                            <input type="submit" name="modification" class="btn btn-info btn-md" value="Valider" />
                             <a href="../views/profil.php" class="btn btn-outline-success btn-md">Retourner au profil</a>
                         </div>
                     </form>

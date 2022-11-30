@@ -1,6 +1,20 @@
 <?php
 include '../includes/head.php';
 require_once '../controllers/start_bdd.php';
+
+//RECUPERATION INFO USERS
+$request = $bdd->prepare('SELECT * FROM bdc.user_info WHERE id_user = ?');
+$request->execute([$_SESSION['id']]);
+$res = $request->fetch();
+
+if ($res != null) {
+    $fonction = $res['fonction'];
+    $phone = $res['phone_number'];
+    $git = $res['git'];
+}
+
+//RECUPERATION PHOTO DE PROFIL
+
 ?>
 
 <link rel="stylesheet" href="../css/profil.css">
@@ -43,17 +57,72 @@ require_once '../controllers/start_bdd.php';
                     <?php unset($_SESSION['flash']);
                     } ?>
 
-                    <center><h3 class="nom text-white">Bonjour <?= $name ?> !</h3></center>
-                    <a href="../controllers/modif_profil.php" class="profile btn btn-outline-info">Modifier le profil</a>
-
                     <div class="col-md-6 order-2 order-md-1 text-center text-md-left text-white">
-                        <img class="img-fluid" src="../images/logo/pc.png">
-                        <center><a href="#" class="btn btn-outline-success">Compétences acquis</a></center>
+                        <!-- template -->
+                        <!-- <section class="vh-100" style="background-color: black;"> -->
+                        <div class="container py-5 h-100 order-1">
+                            <div class="row d-flex justify-content-center align-items-center h-100">
+                                <div class="col col-lg-12 mb-4 mb-lg-0">
+                                    <div class="card mb-3" style="border-radius: 20px;">
+                                        <div class="row g-0">
+                                            <div class="col-md-4 gradient-custom text-center profil1 text-white" style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                                                <!-- <img src="../images/user.jpg" alt="Avatar" class="img-fluid my-5" style="width: 80px; border-radius: 50%" /> -->
+                                                <img src="../controllers/affichage_pdp.php?id=<?= $_SESSION['id'] ?>" class="img-fluid my-5" style="width: 80px; border-radius: 50%" />
+                                                <a href="../controllers/add_pdp.php"><i class="fa fa-camera" style="color: yellow; position: absolute; top: 7em; left: 7.5em;"></i></a>
+                                                <h5 class="text-white"><?= $name ?></h5>
+                                                <code>
+                                                    <?php if (isset($fonction)) echo $fonction;
+                                                    else echo "------" ?>
+                                                </code> <br> <br>
+                                                <a href="../controllers/modif_profil.php"><i class="far fa-edit mb-5"></i></a>
+                                            </div>
+                                            <div class="col-md-8 profil2 text-white">
+                                                <div class="card-body p-4">
+                                                    <h6 class="text-white">Information</h6>
+
+                                                    <hr class="mt-0 mb-4">
+
+                                                    <div class="row pt-1">
+                                                        <div class="col-12 mb-4">
+                                                            <h6 class="text-white">Email</h6>
+                                                            <p class="text-white"><small class="mail"><?= $_SESSION['email'] ?></small></p> <br>
+                                                            <h6 class="text-white">Phone</h6>
+                                                            <p class="text-white">
+                                                                <?php if (isset($phone)) echo $phone;
+                                                                else echo "-------" ?>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <hr class="mt-0 mb-4">
+
+                                                    <div class="row justify-content-start">
+                                                        <div>
+                                                            <i class="fab fa-github fa-lg me-3"></i> &nbsp;
+                                                            <small class="mail">
+                                                                <?php if (isset($git)) echo $git;
+                                                                else echo "-------" ?>
+                                                            </small>
+                                                        </div>
+
+                                                    </div> <br>
+
+                                                    <hr class="mt-0 mb-4">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- </section> -->
+                        <!-- FIN TEMPLATE  -->
                     </div>
 
-                    <div class="col-md-6 text-center order-1 order-md-2">
-                        <img class="img-fluid" src="../images/logo/phone.png">
-                        <center><a href="#" class="btn btn-outline-warning">Compétences à acquérir</a></center>
+                    <div class="col-md-6 text-center order-2 order-md-2">
+                        <img class="img-fluid" src="../images/logo/pc.png"> <br>
+                        <a href="../controllers/modif_profil.php" class="btn btn-outline-info">Modifier</a>
                     </div>
                 </div>
             </div>
@@ -69,9 +138,7 @@ require_once '../controllers/start_bdd.php';
         <script>
             location.replace('connexion.php')
         </script>
-    <?php
-    }
-    ?>
+    <?php } ?>
 
     <!-- To Top -->
     <div class="scroll-top-to">
