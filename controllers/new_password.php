@@ -23,7 +23,8 @@ if ($_GET) {
             if (isset($_POST['valider'])) {
                 if (!empty($_POST['password']) && !empty($_POST['password2']) && $_POST['password'] == $_POST['password2']) {
                     // MAJ MOT DE PASSE AU NIVEAU DE BD
-                    $psw = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                    // $psw = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                    $psw = $_POST['password'];
                     $requete = $bdd->prepare('UPDATE users SET psw = ? WHERE email = ?');
                     $result = $requete->execute([$psw, $email]);
 
@@ -96,7 +97,7 @@ if ($_GET) {
                     </form>
                 </div>
                 <div class="col-md-6 text-center order-1 order-md-2">
-                    <img class="img-fluid" src="images/logo/pc.png" alt="screenshot">
+                    <img class="img-fluid" src="../images/logo/pc.png" alt="screenshot">
                 </div>
             </div>
         </div>

@@ -77,7 +77,12 @@ $is_exist = $test->fetchAll();
                                                     <img src="../images/user.jpg" class="img-fluid my-5" style="width: 80px; border-radius: 50%" />
                                                 <?php endif ?>
                                                 <a href="../controllers/add_pdp.php"><i class="fa fa-camera" style="color: yellow; position: absolute; top: 7em; left: 7.5em;"></i></a>
-                                                <a href="../controllers/suppr_pdp.php"><i class="fa fa-close" style="color: red; position: absolute; top: 7em; left: 3em;"></i></a>
+                                                <a href="../controllers/suppr_pdp.php"><i onclick="confim_suppr()" class="fa fa-close" style="color: red; position: absolute; top: 7em; left: 3em;"></i></a>
+                                                <script>
+                                                    function confim_suppr() {
+                                                        confirm("Supprimer l'image ?");
+                                                    }
+                                                </script>
                                                 <h5 class="text-white"><?= $name ?></h5>
                                                 <code>
                                                     <?php if (isset($fonction)) echo $fonction;
@@ -131,7 +136,13 @@ $is_exist = $test->fetchAll();
 
                     <div class="col-md-6 text-center order-2 order-md-2">
                         <img class="img-fluid" src="../images/logo/pc.png"> <br>
-                        <a href="../controllers/modif_profil.php" class="btn btn-outline-info">Modifier</a>
+                        <a href="../controllers/modif_profil.php" class="btn btn-outline-info">Modifier</a> &nbsp;
+                        <a href="../controllers/suppr_user.php" onclick="suppr_confirm()" class="btn btn-outline-danger">Supprimer le compte</a>
+                        <script>
+                            function suppr_confirm() {
+                                confirm("Supprimer l'image ?");
+                            }
+                        </script>
                     </div>
                 </div>
             </div>
