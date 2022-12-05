@@ -111,7 +111,8 @@ if (isset($_POST['inscription'])) {
                         </div> <br>
                         <center>
                             <div class="form-group">
-                                <input type="submit" name="inscription" class="btn btn-outline-success btn-md" value="S'inscrire" />
+                                <input type="submit" name="inscription" class="btn btn-outline-success btn-md" value="S'inscrire" /> &nbsp; &nbsp;
+                                <a href="connexion.php" name="connexion" class="btn btn-outline-warning btn-sm" value="">Se connecter</a>
                             </div>
                         </center>
                     </form>

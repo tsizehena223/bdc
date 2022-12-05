@@ -71,18 +71,13 @@ $is_exist = $test->fetchAll();
                                     <div class="card mb-3" style="border-radius: 20px;">
                                         <div class="row g-0">
                                             <div class="col-md-4 gradient-custom text-center profil1 text-white" style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                                                <a href="../controllers/suppr_pdp.php"><i class="ti ti-trash" style="color: red; position: relative; top: 2.4em; left: 1em;"></i></a>                                                
                                                 <?php if ($is_exist != null) : ?>
                                                     <img src="../controllers/affichage_pdp.php?id=<?= $_SESSION['id'] ?>" class="img-fluid my-5" style="width: 80px; border-radius: 50%" />
                                                 <?php else : ?>
                                                     <img src="../images/user.jpg" class="img-fluid my-5" style="width: 80px; border-radius: 50%" />
                                                 <?php endif ?>
-                                                <a href="../controllers/add_pdp.php"><i class="fa fa-camera" style="color: yellow; position: absolute; top: 7em; left: 7.5em;"></i></a>
-                                                <a href="../controllers/suppr_pdp.php"><i onclick="confim_suppr()" class="fa fa-close" style="color: red; position: absolute; top: 7em; left: 3em;"></i></a>
-                                                <script>
-                                                    function confim_suppr() {
-                                                        confirm("Supprimer l'image ?");
-                                                    }
-                                                </script>
+                                                <a href="../controllers/add_pdp.php"><i class="fa fa-camera" style="color: yellow; position: relative; top: 2.3em; right: 1em;"></i></a>
                                                 <h5 class="text-white"><?= $name ?></h5>
                                                 <code>
                                                     <?php if (isset($fonction)) echo $fonction;
