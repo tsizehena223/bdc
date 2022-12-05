@@ -1,0 +1,7 @@
+Erreur quand on push après avoir créé un autre repo
+
+git remote add origin <input github url>
+git pull origin master --allow-unrelated-histories
+git push origin master
+
+============
